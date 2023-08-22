@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Contraster 2</string>
+    <string name="motto">Aa</string>
+    <string name="lorem_display">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="test_palette">Test palette</string>
+    <string name="cd_switch">Switch</string>
+    <string name="background">Background</string>
+    <string name="foreground">Foreground</string>
+    <string name="hue">Hue</string>
+    <string name="value">Value</string>
+    <string name="saturation">Saturation</string>
 </resources>
