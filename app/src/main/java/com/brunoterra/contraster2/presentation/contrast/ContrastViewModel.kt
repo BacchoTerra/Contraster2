@@ -1,6 +1,7 @@
 package com.brunoterra.contraster2.presentation.contrast
 
 import androidx.lifecycle.ViewModel
+import com.brunoterra.contraster2.domain.usecase.CalculateContrastUseCase
 import com.brunoterra.contraster2.domain.usecase.ColorHexCalculatorUseCase
 import com.brunoterra.contraster2.domain.usecase.HSLChangeUseCase
 import com.brunoterra.hslmaker.domain.model.HSLColor
@@ -10,7 +11,8 @@ import kotlinx.coroutines.flow.update
 
 class ContrastViewModel(
     private val hslChangeUseCase: HSLChangeUseCase,
-    private val colorHexCalculatorUseCase: ColorHexCalculatorUseCase
+    private val colorHexCalculatorUseCase: ColorHexCalculatorUseCase,
+    private val calculateContrastUseCase: CalculateContrastUseCase,
 ) : ViewModel() {
 
     private val _contrastUiState = MutableStateFlow(ContrastUiState())
@@ -57,31 +59,35 @@ class ContrastViewModel(
         _contrastUiState.update { currentValue ->
             val mTarget = target ?: currentValue.target
 
-            val currentHsvForTarget =
+            val currentHslForTarget =
                 if (mTarget == Target.BACKGROUND) currentValue.backgroundWrapper else currentValue.foregroundWrapper
 
             val newColor = hslChangeUseCase(
-                hue = hue ?: currentHsvForTarget.hslColor.hue,
-                saturation = sat ?: currentHsvForTarget.hslColor.saturation,
-                lightness = lightness ?: currentHsvForTarget.hslColor.lightness
+                hue = hue ?: currentHslForTarget.hslColor.hue,
+                saturation = sat ?: currentHslForTarget.hslColor.saturation,
+                lightness = lightness ?: currentHslForTarget.hslColor.lightness
             )
 
             val hexColor = colorHexCalculatorUseCase(newColor)
 
-            val updatedHSVWrapper =
+            val updatedHSLWrapper =
                 (if (mTarget == Target.BACKGROUND) currentValue.backgroundWrapper else currentValue.foregroundWrapper).copy(
                     hslColor = HSLColor(
-                        hue ?: currentHsvForTarget.hslColor.hue,
-                        sat ?: currentHsvForTarget.hslColor.saturation,
-                        lightness ?: currentHsvForTarget.hslColor.lightness,
+                        hue ?: currentHslForTarget.hslColor.hue,
+                        sat ?: currentHslForTarget.hslColor.saturation,
+                        lightness ?: currentHslForTarget.hslColor.lightness,
                     ),
                     color = newColor,
                     colorHex = hexColor,
                 )
 
             currentValue.copy(
-                backgroundWrapper = if (mTarget == Target.BACKGROUND) updatedHSVWrapper else currentValue.backgroundWrapper,
-                foregroundWrapper = if (mTarget == Target.FOREGROUND) updatedHSVWrapper else currentValue.foregroundWrapper,
+                backgroundWrapper = if (mTarget == Target.BACKGROUND) updatedHSLWrapper else currentValue.backgroundWrapper,
+                foregroundWrapper = if (mTarget == Target.FOREGROUND) updatedHSLWrapper else currentValue.foregroundWrapper,
+                contrast = calculateContrastUseCase(
+                    currentValue.foregroundWrapper.color,
+                    currentValue.backgroundWrapper.color
+                )
             )
         }
     }

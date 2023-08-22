@@ -55,7 +55,7 @@ fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
             .height(IntrinsicSize.Max)
     ) {
 
-        ContrastSection(state.value.foregroundWrapper.color) {
+        ContrastSection(state.value.foregroundWrapper.color,state.value.contrast) {
             contrastVM.onEvent(ContrastEvents.SwitchColors)
         }
 
@@ -96,6 +96,7 @@ fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
 @Composable
 private fun ContrastSection(
     foregroundColor: Int = defaultContrastForegroundColor.toArgb(),
+    contrast: Contrast = Contrast(),
     onSwitch: () -> Unit = {},
 ) {
     Column(
@@ -119,7 +120,7 @@ private fun ContrastSection(
                 style = MaterialTheme.typography.displayMedium,
                 color = Color(foregroundColor)
             )
-            Text(text = "Contrast ratio", color = Color(foregroundColor))
+            Text(text = "${contrast.ratio.value}/${contrast.score}", color = Color(foregroundColor))
         }
 
         Text(
