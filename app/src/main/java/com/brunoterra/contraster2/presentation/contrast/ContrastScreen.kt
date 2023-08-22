@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.brunoterra.contraster2.R
+import com.brunoterra.contraster2.domain.model.Contrast
 import com.brunoterra.contraster2.presentation.utils.components.LabeledComponent
 import com.brunoterra.contraster2.ui.theme.Contraster2Theme
 import com.brunoterra.contraster2.ui.theme.Purple80
@@ -41,6 +42,7 @@ import com.brunoterra.hslmaker.ui.HueSlider
 import com.brunoterra.hslmaker.ui.SaturationSlider
 import com.brunoterra.hslmaker.ui.LightnessSlider
 import org.koin.androidx.compose.koinViewModel
+import com.brunoterra.contraster2.presentation.utils.Target
 
 @Composable
 fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
@@ -55,7 +57,7 @@ fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
             .height(IntrinsicSize.Max)
     ) {
 
-        ContrastSection(state.value.foregroundWrapper.color,state.value.contrast) {
+        ContrastSection(state.value.foregroundWrapper.color, state.value.contrast) {
             contrastVM.onEvent(ContrastEvents.SwitchColors)
         }
 

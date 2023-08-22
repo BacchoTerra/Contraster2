@@ -1,6 +1,7 @@
 package com.brunoterra.contraster2.presentation.contrast
 
 import androidx.lifecycle.ViewModel
+import com.brunoterra.contraster2.domain.model.HSLWrapper
 import com.brunoterra.contraster2.domain.usecase.CalculateContrastUseCase
 import com.brunoterra.contraster2.domain.usecase.ColorHexCalculatorUseCase
 import com.brunoterra.contraster2.domain.usecase.HSLChangeUseCase
@@ -8,6 +9,7 @@ import com.brunoterra.hslmaker.domain.model.HSLColor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import com.brunoterra.contraster2.presentation.utils.Target
 
 class ContrastViewModel(
     private val hslChangeUseCase: HSLChangeUseCase,
@@ -58,7 +60,7 @@ class ContrastViewModel(
     ) {
         _contrastUiState.update { currentValue ->
 
-            val mTarget = target?:currentValue.target
+            val mTarget = target ?: currentValue.target
 
             var backgroundWrapper = currentValue.backgroundWrapper
             var foregroundWrapper = currentValue.foregroundWrapper

@@ -1,5 +1,7 @@
 package com.brunoterra.contraster2.presentation.contrast
 
+import com.brunoterra.contraster2.presentation.utils.Target
+
 sealed class ContrastEvents {
     data class HueChange(val hue: Float) : ContrastEvents()
     data class SaturationChange(val saturation: Float) : ContrastEvents()
