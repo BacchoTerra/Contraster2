@@ -15,35 +15,62 @@ class ContrastViewModel(private val hsvChangeUseCase: HSVChangeUseCase) : ViewMo
     fun onEvent(event: ContrastEvents) {
         when (event) {
             is ContrastEvents.HueChange -> {
-                updateUiState(hue = event.hue)
+                updateColorState(hue = event.hue)
             }
 
             is ContrastEvents.SaturationChange -> {
-                updateUiState(sat = event.saturation)
+                updateColorState(sat = event.saturation)
             }
 
             is ContrastEvents.ValueChange -> {
-                updateUiState(value = event.value)
+                updateColorState(value = event.value)
+            }
+
+            is ContrastEvents.TargetChange -> {
+                _contrastUiState.update { currentValue ->
+                    currentValue.copy(target = event.target)
+                }
             }
         }
     }
 
-    private fun updateUiState(
-        hue: Float = _contrastUiState.value.hueSlider,
-        sat: Float = _contrastUiState.value.saturationSlider,
-        value: Float = _contrastUiState.value.valueSlider,
+    private fun updateColorState(
+        hue: Float? = null,
+        sat: Float? = null,
+        value: Float? = null,
     ) {
         _contrastUiState.update { currentValue ->
-            val color = hsvChangeUseCase(
-                hue = hue,
-                saturation = sat,
-                value = value
+            val target = currentValue.target
+
+            val currentHsvForTarget =
+                if (target == Target.BACKGROUND) currentValue.backgroundWrapper else currentValue.foregroundWrapper
+
+            val newColor = hsvChangeUseCase(
+                hue = hue ?: currentHsvForTarget.hueSlider,
+                saturation = sat ?: currentHsvForTarget.saturationSlider,
+                value = value ?: currentHsvForTarget.valueSlider
             )
+
+            val backgroundWrapper =
+                if (target == Target.BACKGROUND) currentValue.backgroundWrapper.copy(
+                    hueSlider = hue ?: currentHsvForTarget.hueSlider,
+                    saturationSlider = sat ?: currentHsvForTarget.saturationSlider,
+                    valueSlider = value ?: currentHsvForTarget.valueSlider,
+                    color = newColor
+                ) else currentValue.backgroundWrapper
+
+            val foregroundWrapper =
+                if (target == Target.FOREGROUND) currentValue.foregroundWrapper.copy(
+                    hueSlider = hue ?: currentHsvForTarget.hueSlider,
+                    saturationSlider = sat ?: currentHsvForTarget.saturationSlider,
+                    valueSlider = value ?: currentHsvForTarget.valueSlider,
+                    color = newColor
+                ) else currentValue.foregroundWrapper
+
             currentValue.copy(
-                hueSlider = hue,
-                saturationSlider = sat,
-                valueSlider = value,
-                backgroundColor = color
+                backgroundWrapper = backgroundWrapper,
+                foregroundWrapper = foregroundWrapper,
+                target = target
             )
         }
     }

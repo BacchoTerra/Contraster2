@@ -10,6 +10,7 @@ internal object HSVUtils {
     )
 
     val hueFloatRange = 0f..360f
+    val saturationFloatRange = 0f..1f
     val valueFloatRange = 0f..1f
 
     fun getValueSequentialList(mainColor: Color) = listOf(Color.Black, mainColor, Color.White)

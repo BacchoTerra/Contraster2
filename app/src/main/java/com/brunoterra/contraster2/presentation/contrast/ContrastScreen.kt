@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -37,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.brunoterra.contraster2.R
 import com.brunoterra.contraster2.ui.theme.Contraster2Theme
+import com.brunoterra.contraster2.ui.theme.Purple80
 import com.brunoterra.contraster2.ui.theme.defaultContrastBackgroundColor
 import com.brunoterra.contraster2.ui.theme.defaultContrastForegroundColor
 import com.brunoterra.hsvmaker.ui.HueSlider
@@ -52,7 +55,7 @@ fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(state.value.backgroundColor))
+            .background(Color(state.value.backgroundWrapper.color))
             .scrollable(
                 rememberScrollState(),
                 orientation = Orientation.Vertical
@@ -60,7 +63,7 @@ fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
     ) {
 
         Column {
-            ContrastSection()
+            ContrastSection(state.value.foregroundWrapper.color)
 
             Column(
                 Modifier
@@ -71,10 +74,16 @@ fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
-                ColorHeaderSection()
+                ColorHeaderSection(state.value.target) {
+                    contrastVM.onEvent(ContrastEvents.TargetChange(it))
+                }
                 Spacer(modifier = Modifier.height(24.dp))
+                val sliderValues =
+                    if (state.value.target == Target.BACKGROUND) state.value.backgroundWrapper else state.value.foregroundWrapper
                 SlidersSection(
-                    state.value,
+                    hue = sliderValues.hueSlider,
+                    sat = sliderValues.saturationSlider,
+                    value = sliderValues.valueSlider,
                     onHueChange = {
                         contrastVM.onEvent(ContrastEvents.HueChange(it))
                     },
@@ -140,7 +149,7 @@ private fun ContrastSection(
 }
 
 @Composable
-private fun ColorHeaderSection() {
+private fun ColorHeaderSection(currentTarget: Target, onTargetSelection: (Target) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -150,7 +159,7 @@ private fun ColorHeaderSection() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ToggleGroup()
+            ToggleGroup(currentTarget, onTargetSelection)
             Text(
                 modifier = Modifier
                     .border(
@@ -166,7 +175,7 @@ private fun ColorHeaderSection() {
 }
 
 @Composable
-private fun ToggleGroup() {
+private fun ToggleGroup(currentTarget: Target, onSelection: (Target) -> Unit) {
     Row {
         OutlinedButton(
             shape = RoundedCornerShape(
@@ -175,16 +184,27 @@ private fun ToggleGroup() {
                 topEnd = 0.dp,
                 bottomEnd = 0.dp
             ),
-            onClick = {}) {
+            colors = ButtonDefaults.buttonColors(
+                containerColor = if (currentTarget == Target.BACKGROUND) Purple80 else Color.White,
+                contentColor = Color.Gray
+            ),
+            onClick = { onSelection(Target.BACKGROUND) }) {
             Text(text = stringResource(id = R.string.background))
         }
 
-        OutlinedButton(shape = RoundedCornerShape(
-            topStart = 0.dp,
-            bottomStart = 0.dp,
-            topEnd = 8.dp,
-            bottomEnd = 8.dp
-        ), onClick = {}) {
+        OutlinedButton(
+            shape = RoundedCornerShape(
+                topStart = 0.dp,
+                bottomStart = 0.dp,
+                topEnd = 8.dp,
+                bottomEnd = 8.dp
+            ),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = if (currentTarget == Target.FOREGROUND) Purple80 else Color.White,
+                contentColor = Color.Gray
+            ),
+            onClick = { onSelection(Target.FOREGROUND) }
+        ) {
             Text(text = stringResource(id = R.string.foreground))
         }
     }
@@ -192,7 +212,9 @@ private fun ToggleGroup() {
 
 @Composable
 fun SlidersSection(
-    state: ContrastUiState,
+    hue: Float,
+    sat: Float,
+    value: Float,
     onHueChange: (Float) -> Unit,
     onSaturationChange: (Float) -> Unit,
     onValueChange: (Float) -> Unit
@@ -200,22 +222,22 @@ fun SlidersSection(
 
     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         LabeledComponent(icon = R.drawable.baseline_palette_24, label = R.string.hue) {
-            HueSlider(value = state.hueSlider, onValueChange = {
+            HueSlider(value = hue, onValueChange = {
                 onHueChange(it)
             })
         }
 
         LabeledComponent(icon = R.drawable.baseline_light_mode_24, label = R.string.value) {
             ValueSlider(
-                hue = state.hueSlider,
-                value = state.valueSlider,
+                hue = hue,
+                value = value,
                 onValueChange = { onValueChange(it) })
         }
 
         LabeledComponent(icon = R.drawable.baseline_opacity_24, label = R.string.saturation) {
             SaturationSlider(
-                hue = state.hueSlider,
-                value = state.saturationSlider,
+                hue = hue,
+                value = sat,
                 onValueChange = { onSaturationChange(it) })
         }
     }
@@ -272,7 +294,7 @@ fun ContrastSectionPrev() {
 fun ColorHeaderSectionPrev() {
     Contraster2Theme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            ColorHeaderSection()
+            ColorHeaderSection(Target.BACKGROUND) {}
         }
     }
 }

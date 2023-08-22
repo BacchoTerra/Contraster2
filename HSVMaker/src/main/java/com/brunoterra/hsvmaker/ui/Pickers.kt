@@ -109,7 +109,7 @@ fun SaturationSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
     ) {
         Slider(
             value = value,
-            valueRange = HSVUtils.valueFloatRange,
+            valueRange = HSVUtils.saturationFloatRange,
             colors = SliderDefaults.colors(
                 activeTickColor = Color.Transparent,
                 inactiveTickColor = Color.Transparent,
