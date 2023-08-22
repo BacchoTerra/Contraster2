@@ -1,16 +1,16 @@
 package com.brunoterra.contraster2.presentation.contrast
 
-import com.brunoterra.hsvmaker.domain.model.HSVColor
+import com.brunoterra.hslmaker.domain.model.HSLColor
 
 data class ContrastUiState(
-    val backgroundWrapper: HSVWrapper = HSVWrapper(HSVColor(217f, .82f, .53f)),
-    val foregroundWrapper: HSVWrapper = HSVWrapper(HSVColor(0f, 0f, 1f)),
+    val backgroundWrapper: HSLWrapper = HSLWrapper(HSLColor(217f, .82f, .53f)),
+    val foregroundWrapper: HSLWrapper = HSLWrapper(HSLColor(0f, 0f, 1f)),
     val target: Target = Target.BACKGROUND,
 ) {
 }
 
-data class HSVWrapper(
-    val hsvColor: HSVColor = HSVColor(),
+data class HSLWrapper(
+    val hslColor: HSLColor = HSLColor(),
     val color: Int = -1,
     val colorHex: String = "0xXXXXXX",
 )

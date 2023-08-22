@@ -7,6 +7,6 @@
     <string name="background">Background</string>
     <string name="foreground">Foreground</string>
     <string name="hue">Hue</string>
-    <string name="value">Value</string>
+    <string name="lightness">Lightness</string>
     <string name="saturation">Saturation</string>
 </resources>

@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Contraster 2"
 include(":app")
-include(":HSVMaker")
+include(":HSLMaker")

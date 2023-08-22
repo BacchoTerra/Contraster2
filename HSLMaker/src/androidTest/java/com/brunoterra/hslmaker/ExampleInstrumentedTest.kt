@@ -1,4 +1,4 @@
-package com.brunoterra.hsvmaker
+package com.brunoterra.hslmaker
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

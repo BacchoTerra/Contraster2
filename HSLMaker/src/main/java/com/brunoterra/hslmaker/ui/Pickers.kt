@@ -1,4 +1,4 @@
-package com.brunoterra.hsvmaker.ui
+package com.brunoterra.hslmaker.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -16,13 +16,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.brunoterra.hsvmaker.domain.model.HSVColor
-import com.brunoterra.hsvmaker.utils.HSVMaker
-import com.brunoterra.hsvmaker.utils.HSVRanges
-import com.brunoterra.hsvmaker.utils.HSVUtils
+import com.brunoterra.hslmaker.domain.model.HSLColor
+import com.brunoterra.hslmaker.utils.HSLMaker
+import com.brunoterra.hslmaker.utils.HSLRanges
+import com.brunoterra.hslmaker.utils.HSLUtils
 
 /**
- * Specific slider for <strong>hue</strong> value of an HSV color.
+ * Specific slider for <strong>hue</strong> value of an HSL color.
  * Ranges from 0f to 360f.
  *
  * @param value: slider value
@@ -33,12 +33,12 @@ fun HueSlider(value: Float, onValueChange: (Float) -> Unit) {
 
     SliderContainer(
         sliderBrush = Brush.linearGradient(
-            HSVUtils.getHueSequentialColorList()
+            HSLUtils.getHueSequentialColorList()
         )
     ) {
         Slider(
             value = value,
-            valueRange = HSVRanges.HUE_RANGE,
+            valueRange = HSLRanges.HUE_RANGE,
             colors = SliderDefaults.colors(
                 activeTickColor = Color.Transparent,
                 inactiveTickColor = Color.Transparent,
@@ -54,18 +54,18 @@ fun HueSlider(value: Float, onValueChange: (Float) -> Unit) {
 }
 
 /**
- * Specific slider for <strong>value (lightness)</strong> value of an HSV color.
+ * Specific slider for <strong>value (lightness)</strong> value of an HSL color.
  * Ranges from 0f to 1f.
  *
  * @param hue: the hue on which this value is being applied
- * @param value: slider value
+ * @param lightness: slider value
  * @param onValueChange: slide callback.
  */
 @Composable
-fun ValueSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
+fun LightnessSlider(hue: Float, lightness: Float, onValueChange: (Float) -> Unit) {
 
     val sliderMainColor =
-        HSVUtils.getValueSequentialList(Color(HSVMaker.createFromHSV(HSVColor(hue, .5f, .5f))))
+        HSLUtils.getLightnessSequentialList(Color(HSLMaker.createFromHSV(HSLColor(hue, .5f, .5f))))
 
     SliderContainer(
         sliderBrush = Brush.linearGradient(
@@ -73,8 +73,8 @@ fun ValueSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
         )
     ) {
         Slider(
-            value = value,
-            valueRange = HSVRanges.VALUE_RANGE,
+            value = lightness,
+            valueRange = HSLRanges.LIGHTNESS_RANGE,
             colors = SliderDefaults.colors(
                 activeTickColor = Color.Transparent,
                 inactiveTickColor = Color.Transparent,
@@ -90,10 +90,10 @@ fun ValueSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
 }
 
 /**
- * Specific slider for <strong>saturation</strong> value of an HSV color.
+ * Specific slider for <strong>saturation</strong> value of an HSL color.
  * Ranges from 0f to 1f.
  *
- * @param hue: the hue on which this value is being applied
+ * @param hue: the hue on which this lightness is being applied
  * @param value: slider value
  * @param onValueChange: slide callback.
  */
@@ -101,7 +101,7 @@ fun ValueSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
 fun SaturationSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
 
     val sliderMainColor =
-        HSVUtils.getSaturationSequentialList(Color(HSVMaker.createFromHSV(HSVColor(hue, 1f, .5f))))
+        HSLUtils.getSaturationSequentialList(Color(HSLMaker.createFromHSV(HSLColor(hue, 1f, .5f))))
 
     SliderContainer(
         sliderBrush = Brush.linearGradient(
@@ -110,7 +110,7 @@ fun SaturationSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
     ) {
         Slider(
             value = value,
-            valueRange = HSVRanges.SAT_RANGE,
+            valueRange = HSLRanges.SAT_RANGE,
             colors = SliderDefaults.colors(
                 activeTickColor = Color.Transparent,
                 inactiveTickColor = Color.Transparent,
@@ -154,7 +154,7 @@ private fun SliderPrev() {
         Surface(color = MaterialTheme.colorScheme.background) {
             Column {
                 HueSlider(value = .5f, onValueChange = {})
-                ValueSlider(hue = 150f, value = .5f, onValueChange = {})
+                LightnessSlider(hue = 150f, lightness = .5f, onValueChange = {})
                 SaturationSlider(hue = 179f, value = .5f, onValueChange = {})
             }
         }

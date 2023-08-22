@@ -1,4 +1,4 @@
-package com.brunoterra.hsvmaker
+package com.brunoterra.hslmaker
 
 import org.junit.Test
 

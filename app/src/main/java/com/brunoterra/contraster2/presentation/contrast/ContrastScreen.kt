@@ -1,13 +1,8 @@
 package com.brunoterra.contraster2.presentation.contrast
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -17,12 +12,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -30,7 +23,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,16 +32,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.brunoterra.contraster2.R
 import com.brunoterra.contraster2.presentation.utils.components.LabeledComponent
 import com.brunoterra.contraster2.ui.theme.Contraster2Theme
 import com.brunoterra.contraster2.ui.theme.Purple80
-import com.brunoterra.contraster2.ui.theme.defaultContrastBackgroundColor
 import com.brunoterra.contraster2.ui.theme.defaultContrastForegroundColor
-import com.brunoterra.hsvmaker.ui.HueSlider
-import com.brunoterra.hsvmaker.ui.SaturationSlider
-import com.brunoterra.hsvmaker.ui.ValueSlider
+import com.brunoterra.hslmaker.ui.HueSlider
+import com.brunoterra.hslmaker.ui.SaturationSlider
+import com.brunoterra.hslmaker.ui.LightnessSlider
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -87,17 +77,17 @@ fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
             val sliderValues =
                 if (state.value.target == Target.BACKGROUND) state.value.backgroundWrapper else state.value.foregroundWrapper
             SlidersSection(
-                hue = sliderValues.hsvColor.hue,
-                sat = sliderValues.hsvColor.saturation,
-                value = sliderValues.hsvColor.value,
+                hue = sliderValues.hslColor.hue,
+                sat = sliderValues.hslColor.saturation,
+                lightness = sliderValues.hslColor.lightness,
                 onHueChange = {
                     contrastVM.onEvent(ContrastEvents.HueChange(it))
                 },
                 onSaturationChange = {
                     contrastVM.onEvent(ContrastEvents.SaturationChange(it))
                 },
-                onValueChange = {
-                    contrastVM.onEvent(ContrastEvents.ValueChange(it))
+                onLightnessChange = {
+                    contrastVM.onEvent(ContrastEvents.LightnessChange(it))
                 })
         }
     }
@@ -227,10 +217,10 @@ private fun ToggleGroup(currentTarget: Target, onSelection: (Target) -> Unit) {
 fun SlidersSection(
     hue: Float,
     sat: Float,
-    value: Float,
+    lightness: Float,
     onHueChange: (Float) -> Unit,
     onSaturationChange: (Float) -> Unit,
-    onValueChange: (Float) -> Unit
+    onLightnessChange: (Float) -> Unit
 ) {
 
     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -240,11 +230,11 @@ fun SlidersSection(
             })
         }
 
-        LabeledComponent(icon = R.drawable.baseline_light_mode_24, label = R.string.value) {
-            ValueSlider(
+        LabeledComponent(icon = R.drawable.baseline_light_mode_24, label = R.string.lightness) {
+            LightnessSlider(
                 hue = hue,
-                value = value,
-                onValueChange = { onValueChange(it) })
+                lightness = lightness,
+                onValueChange = { onLightnessChange(it) })
         }
 
         LabeledComponent(icon = R.drawable.baseline_opacity_24, label = R.string.saturation) {
