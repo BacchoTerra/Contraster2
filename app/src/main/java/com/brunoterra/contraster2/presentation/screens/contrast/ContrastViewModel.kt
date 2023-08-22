@@ -2,9 +2,9 @@ package com.brunoterra.contraster2.presentation.screens.contrast
 
 import androidx.lifecycle.ViewModel
 import com.brunoterra.contraster2.domain.model.HSLWrapper
-import com.brunoterra.contraster2.domain.usecase.CalculateContrastUseCase
-import com.brunoterra.contraster2.domain.usecase.ColorHexCalculatorUseCase
-import com.brunoterra.contraster2.domain.usecase.HSLChangeUseCase
+import com.brunoterra.contraster2.domain.usecase.contrast.CalculateContrastUseCase
+import com.brunoterra.contraster2.domain.usecase.contrast.ColorHexCalculatorUseCase
+import com.brunoterra.contraster2.domain.usecase.contrast.HSLChangeUseCase
 import com.brunoterra.hslmaker.domain.model.HSLColor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

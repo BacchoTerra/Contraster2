@@ -1,4 +1,4 @@
-package com.brunoterra.contraster2.domain.usecase
+package com.brunoterra.contraster2.domain.usecase.contrast
 
 import com.brunoterra.contraster2.domain.model.Contrast
 import com.brunoterra.contraster2.domain.utils.ContrastRatio
@@ -8,7 +8,7 @@ import java.math.RoundingMode
 class CalculateContrastUseCase(private val calculateContrast: CalculateContrast) {
     operator fun invoke(foregroundColor: Int, backgroundColor: Int): Contrast {
 
-        val score = BigDecimal(calculateContrast(foregroundColor, backgroundColor)).setScale(
+        val score = BigDecimal(calculateContrast.calculate(foregroundColor, backgroundColor)).setScale(
             2,
             RoundingMode.HALF_EVEN
         ).toDouble()

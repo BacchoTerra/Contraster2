@@ -65,7 +65,7 @@ fun HueSlider(value: Float, onValueChange: (Float) -> Unit) {
 fun LightnessSlider(hue: Float, lightness: Float, onValueChange: (Float) -> Unit) {
 
     val sliderMainColor =
-        HSLUtils.getLightnessSequentialList(Color(HSLMaker.createFromHSV(HSLColor(hue, .5f, .5f))))
+        HSLUtils.getLightnessSequentialList(Color(HSLMaker.createFromHSL(HSLColor(hue, .5f, .5f))))
 
     SliderContainer(
         sliderBrush = Brush.linearGradient(
@@ -101,7 +101,7 @@ fun LightnessSlider(hue: Float, lightness: Float, onValueChange: (Float) -> Unit
 fun SaturationSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
 
     val sliderMainColor =
-        HSLUtils.getSaturationSequentialList(Color(HSLMaker.createFromHSV(HSLColor(hue, 1f, .5f))))
+        HSLUtils.getSaturationSequentialList(Color(HSLMaker.createFromHSL(HSLColor(hue, 1f, .5f))))
 
     SliderContainer(
         sliderBrush = Brush.linearGradient(
