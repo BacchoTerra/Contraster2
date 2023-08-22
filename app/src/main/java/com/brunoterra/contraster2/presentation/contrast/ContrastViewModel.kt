@@ -32,6 +32,10 @@ class ContrastViewModel(private val hsvChangeUseCase: HSVChangeUseCase) : ViewMo
                     currentValue.copy(target = event.target)
                 }
             }
+
+            is ContrastEvents.SwitchColors -> {
+                switchColors()
+            }
         }
     }
 
@@ -76,6 +80,15 @@ class ContrastViewModel(private val hsvChangeUseCase: HSVChangeUseCase) : ViewMo
                 backgroundWrapper = backgroundWrapper,
                 foregroundWrapper = foregroundWrapper,
                 target = target
+            )
+        }
+    }
+
+    private fun switchColors() {
+        _contrastUiState.update { currentValue ->
+            currentValue.copy(
+                backgroundWrapper = currentValue.foregroundWrapper,
+                foregroundWrapper = currentValue.backgroundWrapper
             )
         }
     }

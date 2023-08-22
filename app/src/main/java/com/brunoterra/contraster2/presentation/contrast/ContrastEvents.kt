@@ -7,5 +7,6 @@ sealed class ContrastEvents {
     data class SaturationChange(val saturation: Float) : ContrastEvents()
     data class ValueChange(val value: Float) : ContrastEvents()
     data class TargetChange(val target: Target) : ContrastEvents()
+    object SwitchColors : ContrastEvents()
 
 }

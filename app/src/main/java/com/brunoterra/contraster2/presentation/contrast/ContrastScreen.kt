@@ -5,6 +5,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
@@ -63,7 +64,9 @@ fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
     ) {
 
         Column {
-            ContrastSection(state.value.foregroundWrapper.color)
+            ContrastSection(state.value.foregroundWrapper.color){
+                contrastVM.onEvent(ContrastEvents.SwitchColors)
+            }
 
             Column(
                 Modifier
@@ -104,7 +107,8 @@ fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
 
 @Composable
 private fun ContrastSection(
-    foregroundColor: Int = defaultContrastForegroundColor.toArgb()
+    foregroundColor: Int = defaultContrastForegroundColor.toArgb(),
+    onSwitch: () -> Unit = {},
 ) {
     Column(
         Modifier
@@ -139,6 +143,11 @@ private fun ContrastSection(
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(text = stringResource(id = R.string.test_palette), color = Color(foregroundColor))
             Icon(
+                modifier = Modifier
+                    .padding(4.dp)
+                    .clickable {
+                        onSwitch()
+                    },
                 painter = painterResource(id = R.drawable.baseline_sync_24),
                 contentDescription = stringResource(
                     id = R.string.cd_switch
@@ -300,7 +309,7 @@ fun ContrastSectionPrev() {
 fun ColorHeaderSectionPrev() {
     Contraster2Theme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            ColorHeaderSection(Target.BACKGROUND,"0xFF000000") {}
+            ColorHeaderSection(Target.BACKGROUND, "0xFF000000") {}
         }
     }
 }
