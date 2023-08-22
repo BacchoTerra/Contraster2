@@ -1,14 +1,9 @@
 package com.brunoterra.contraster2.presentation.contrast
 
-
-private const val INITIAL_HUE = 180f
-private const val INITIAL_SAT = .5f
-private const val INITIAL_VALUE = .5f
+import com.brunoterra.hsvmaker.HSVColor
 
 data class HSVWrapper(
-    val hueSlider: Float = INITIAL_HUE,
-    val saturationSlider: Float = INITIAL_SAT,
-    val valueSlider: Float = INITIAL_VALUE,
+    val hsvColor: HSVColor = HSVColor(),
     val color: Int = -1,
     val colorHex: String = "0xXXXXXX",
 )

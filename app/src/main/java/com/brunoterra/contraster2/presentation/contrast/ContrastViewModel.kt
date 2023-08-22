@@ -1,13 +1,18 @@
 package com.brunoterra.contraster2.presentation.contrast
 
 import androidx.lifecycle.ViewModel
+import com.brunoterra.contraster2.domain.usecase.ColorHexCalculatorUseCase
 import com.brunoterra.contraster2.domain.usecase.HSVChangeUseCase
+import com.brunoterra.hsvmaker.HSVColor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.lang.String
 
-class ContrastViewModel(private val hsvChangeUseCase: HSVChangeUseCase) : ViewModel() {
+class ContrastViewModel(
+    private val hsvChangeUseCase: HSVChangeUseCase,
+    private val colorHexCalculatorUseCase: ColorHexCalculatorUseCase
+) : ViewModel() {
 
     private val _contrastUiState = MutableStateFlow(ContrastUiState())
     val contrastUiState = _contrastUiState.asStateFlow()
@@ -51,27 +56,31 @@ class ContrastViewModel(private val hsvChangeUseCase: HSVChangeUseCase) : ViewMo
                 if (target == Target.BACKGROUND) currentValue.backgroundWrapper else currentValue.foregroundWrapper
 
             val newColor = hsvChangeUseCase(
-                hue = hue ?: currentHsvForTarget.hueSlider,
-                saturation = sat ?: currentHsvForTarget.saturationSlider,
-                value = value ?: currentHsvForTarget.valueSlider
+                hue = hue ?: currentHsvForTarget.hsvColor.hue,
+                saturation = sat ?: currentHsvForTarget.hsvColor.saturation,
+                value = value ?: currentHsvForTarget.hsvColor.value
             )
 
-            val hexColor = String.format("#%06X", 0xFFFFFF and newColor)
+            val hexColor = colorHexCalculatorUseCase(newColor)
 
             val backgroundWrapper =
                 if (target == Target.BACKGROUND) currentValue.backgroundWrapper.copy(
-                    hueSlider = hue ?: currentHsvForTarget.hueSlider,
-                    saturationSlider = sat ?: currentHsvForTarget.saturationSlider,
-                    valueSlider = value ?: currentHsvForTarget.valueSlider,
+                    hsvColor = HSVColor(
+                        hue ?: currentHsvForTarget.hsvColor.hue,
+                        sat ?: currentHsvForTarget.hsvColor.saturation,
+                        value ?: currentHsvForTarget.hsvColor.value,
+                    ),
                     color = newColor,
                     colorHex = hexColor,
                 ) else currentValue.backgroundWrapper
 
             val foregroundWrapper =
                 if (target == Target.FOREGROUND) currentValue.foregroundWrapper.copy(
-                    hueSlider = hue ?: currentHsvForTarget.hueSlider,
-                    saturationSlider = sat ?: currentHsvForTarget.saturationSlider,
-                    valueSlider = value ?: currentHsvForTarget.valueSlider,
+                    hsvColor = HSVColor(
+                        hue ?: currentHsvForTarget.hsvColor.hue,
+                        sat ?: currentHsvForTarget.hsvColor.saturation,
+                        value ?: currentHsvForTarget.hsvColor.value,
+                    ),
                     color = newColor,
                     colorHex = hexColor,
                 ) else currentValue.foregroundWrapper

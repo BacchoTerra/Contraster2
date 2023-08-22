@@ -1,7 +1,7 @@
 package com
 
 import android.app.Application
-import com.brunoterra.contraster2.domain.utils.domainModule
+import com.brunoterra.contraster2.domain.di.domainModule
 import com.brunoterra.contraster2.presentation.di.presentationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

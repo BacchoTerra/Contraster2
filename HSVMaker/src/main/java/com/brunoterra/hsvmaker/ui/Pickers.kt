@@ -32,12 +32,12 @@ fun HueSlider(value: Float, onValueChange: (Float) -> Unit) {
 
     SliderContainer(
         sliderBrush = Brush.linearGradient(
-            HSVUtils.hsvSequentialColors
+            HSVUtils.getHueSequentialColorList()
         )
     ) {
         Slider(
             value = value,
-            valueRange = HSVUtils.hueFloatRange,
+            valueRange = HSVRanges.HUE_RANGE,
             colors = SliderDefaults.colors(
                 activeTickColor = Color.Transparent,
                 inactiveTickColor = Color.Transparent,
@@ -73,7 +73,7 @@ fun ValueSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
     ) {
         Slider(
             value = value,
-            valueRange = HSVUtils.valueFloatRange,
+            valueRange = HSVRanges.VALUE_RANGE,
             colors = SliderDefaults.colors(
                 activeTickColor = Color.Transparent,
                 inactiveTickColor = Color.Transparent,
@@ -109,7 +109,7 @@ fun SaturationSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
     ) {
         Slider(
             value = value,
-            valueRange = HSVUtils.saturationFloatRange,
+            valueRange = HSVRanges.SAT_RANGE,
             colors = SliderDefaults.colors(
                 activeTickColor = Color.Transparent,
                 inactiveTickColor = Color.Transparent,
@@ -117,7 +117,7 @@ fun SaturationSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
                 activeTrackColor = Color.Transparent,
                 inactiveTrackColor = Color.Transparent,
 
-            ),
+                ),
 
             onValueChange = { onValueChange(it) }
         )

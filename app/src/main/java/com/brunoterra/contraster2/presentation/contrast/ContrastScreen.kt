@@ -86,9 +86,9 @@ fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
                 val sliderValues =
                     if (state.value.target == Target.BACKGROUND) state.value.backgroundWrapper else state.value.foregroundWrapper
                 SlidersSection(
-                    hue = sliderValues.hueSlider,
-                    sat = sliderValues.saturationSlider,
-                    value = sliderValues.valueSlider,
+                    hue = sliderValues.hsvColor.hue,
+                    sat = sliderValues.hsvColor.saturation,
+                    value = sliderValues.hsvColor.value,
                     onHueChange = {
                         contrastVM.onEvent(ContrastEvents.HueChange(it))
                     },
