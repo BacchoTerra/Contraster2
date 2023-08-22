@@ -16,6 +16,11 @@ class ContrastViewModel(
     private val _contrastUiState = MutableStateFlow(ContrastUiState())
     val contrastUiState = _contrastUiState.asStateFlow()
 
+    init {
+        updateColorState(target = Target.BACKGROUND)
+        updateColorState(target = Target.FOREGROUND)
+    }
+
 
     fun onEvent(event: ContrastEvents) {
         when (event) {
@@ -47,12 +52,13 @@ class ContrastViewModel(
         hue: Float? = null,
         sat: Float? = null,
         value: Float? = null,
+        target: Target? = null
     ) {
         _contrastUiState.update { currentValue ->
-            val target = currentValue.target
+            val mTarget = target ?: currentValue.target
 
             val currentHsvForTarget =
-                if (target == Target.BACKGROUND) currentValue.backgroundWrapper else currentValue.foregroundWrapper
+                if (mTarget == Target.BACKGROUND) currentValue.backgroundWrapper else currentValue.foregroundWrapper
 
             val newColor = hsvChangeUseCase(
                 hue = hue ?: currentHsvForTarget.hsvColor.hue,
@@ -62,19 +68,20 @@ class ContrastViewModel(
 
             val hexColor = colorHexCalculatorUseCase(newColor)
 
-            val updatedHSVWrapper = (if (target == Target.BACKGROUND) currentValue.backgroundWrapper else currentValue.foregroundWrapper).copy(
-                hsvColor = HSVColor(
-                    hue ?: currentHsvForTarget.hsvColor.hue,
-                    sat ?: currentHsvForTarget.hsvColor.saturation,
-                    value ?: currentHsvForTarget.hsvColor.value,
-                ),
-                color = newColor,
-                colorHex = hexColor,
-            )
+            val updatedHSVWrapper =
+                (if (mTarget == Target.BACKGROUND) currentValue.backgroundWrapper else currentValue.foregroundWrapper).copy(
+                    hsvColor = HSVColor(
+                        hue ?: currentHsvForTarget.hsvColor.hue,
+                        sat ?: currentHsvForTarget.hsvColor.saturation,
+                        value ?: currentHsvForTarget.hsvColor.value,
+                    ),
+                    color = newColor,
+                    colorHex = hexColor,
+                )
 
             currentValue.copy(
-                backgroundWrapper = if (target == Target.BACKGROUND) updatedHSVWrapper else currentValue.backgroundWrapper,
-                foregroundWrapper = if (target == Target.FOREGROUND) updatedHSVWrapper else currentValue.foregroundWrapper,
+                backgroundWrapper = if (mTarget == Target.BACKGROUND) updatedHSVWrapper else currentValue.backgroundWrapper,
+                foregroundWrapper = if (mTarget == Target.FOREGROUND) updatedHSVWrapper else currentValue.foregroundWrapper,
             )
         }
     }

@@ -3,8 +3,8 @@ package com.brunoterra.contraster2.presentation.contrast
 import com.brunoterra.hsvmaker.domain.model.HSVColor
 
 data class ContrastUiState(
-    val backgroundWrapper: HSVWrapper = HSVWrapper(),
-    val foregroundWrapper: HSVWrapper = HSVWrapper(),
+    val backgroundWrapper: HSVWrapper = HSVWrapper(HSVColor(217f, .82f, .53f)),
+    val foregroundWrapper: HSVWrapper = HSVWrapper(HSVColor(0f, 0f, 1f)),
     val target: Target = Target.BACKGROUND,
 ) {
 }
