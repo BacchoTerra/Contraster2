@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.brunoterra.contraster2.presentation.contrast.ContrastScreen
+import com.brunoterra.contraster2.presentation.screens.contrast.ContrastScreen
 import com.brunoterra.contraster2.ui.theme.Contraster2Theme
 
 class MainActivity : ComponentActivity() {

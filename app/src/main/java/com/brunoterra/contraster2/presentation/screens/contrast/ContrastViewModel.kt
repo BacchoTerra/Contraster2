@@ -1,4 +1,4 @@
-package com.brunoterra.contraster2.presentation.contrast
+package com.brunoterra.contraster2.presentation.screens.contrast
 
 import androidx.lifecycle.ViewModel
 import com.brunoterra.contraster2.domain.model.HSLWrapper

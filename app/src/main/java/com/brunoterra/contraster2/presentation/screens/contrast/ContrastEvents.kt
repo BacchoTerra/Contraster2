@@ -1,4 +1,4 @@
-package com.brunoterra.contraster2.presentation.contrast
+package com.brunoterra.contraster2.presentation.screens.contrast
 
 import com.brunoterra.contraster2.presentation.utils.Target
 

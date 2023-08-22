@@ -1,6 +1,6 @@
 package com.brunoterra.contraster2.presentation.di
 
-import com.brunoterra.contraster2.presentation.contrast.ContrastViewModel
+import com.brunoterra.contraster2.presentation.screens.contrast.ContrastViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
