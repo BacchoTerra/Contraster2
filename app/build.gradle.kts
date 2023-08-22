@@ -4,15 +4,15 @@ plugins {
 }
 
 android {
-    namespace = "com.brunoterra.contraster2"
-    compileSdk = 33
+    namespace = NameSpace.contraster
+    compileSdk = Android.compileSdk
 
     defaultConfig {
-        applicationId = "com.brunoterra.contraster2"
-        minSdk = 24
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = Android.applicationId
+        minSdk = Android.minSdk
+        targetSdk = Android.targetSdk
+        versionCode = Android.versionCode
+        versionName = Android.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -40,7 +40,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_VERSION
     }
     packaging {
         resources {
@@ -51,43 +51,32 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.activity:activity-compose:1.7.2")
-    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    implementation(project(mapOf("path" to ":HSLMaker")))
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation(AndroidX.coreKtx)
+    implementation(project(Local.hslMakerMap))
+    testImplementation(JUnit.jUnit)
 
     // Compose
-    val composeBom = platform("androidx.compose:compose-bom:2023.06.01")
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation(platform(Compose.bom))
+    implementation(Compose.material3)
+    implementation(Compose.uiToolingPreview)
+    implementation(Compose.activityCompose)
+    implementation(Compose.ui)
+    implementation(Compose.uiGraphics)
+    androidTestImplementation(platform(Compose.bom))
+    debugImplementation(Compose.uiTooling)
+    debugImplementation(Compose.uiTooling)
+    debugImplementation(Compose.uiTestManifest)
 
-    //ViewModel
-    val lifecycleVersion = "2.6.1"
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion")
+    //ViewModel + Lifecycle
+    implementation(Lifecycle.viewModelKtx)
+    implementation(Lifecycle.viewModelCompose)
+    implementation(Lifecycle.runTimeKtx)
+    implementation(Lifecycle.runTimeCompose)
+    implementation(Lifecycle.commonJava8)
 
     //Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation(Kotlin.coroutine)
 
     //Koin
-    val koinVersion = "3.4.3"
-    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
+    implementation(Koin.koinCompose)
 }

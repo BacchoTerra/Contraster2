@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.brunoterra.hsvmaker"
-    compileSdk = 33
+    namespace = NameSpace.hslMaker
+    compileSdk = Android.compileSdk
 
     defaultConfig {
-        minSdk = 24
+        minSdk = Android.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -31,7 +31,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_VERSION
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -40,18 +40,13 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(AndroidX.coreKtx)
+    testImplementation(JUnit.jUnit)
 
     // Compose
-    val composeBom = platform("androidx.compose:compose-bom:2023.06.01")
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation(platform(Compose.bom))
+    androidTestImplementation(platform(Compose.bom))
+    implementation(Compose.material3)
+    implementation(Compose.uiToolingPreview)
+    debugImplementation(Compose.uiTooling)
 }
