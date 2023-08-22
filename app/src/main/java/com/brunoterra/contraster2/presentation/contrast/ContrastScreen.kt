@@ -1,4 +1,4 @@
-package com.brunoterra.contraster2.presentation
+package com.brunoterra.contraster2.presentation.contrast
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.annotation.DrawableRes
@@ -25,6 +25,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +34,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.brunoterra.contraster2.R
 import com.brunoterra.contraster2.ui.theme.Contraster2Theme
 import com.brunoterra.contraster2.ui.theme.defaultContrastBackgroundColor
@@ -40,13 +42,17 @@ import com.brunoterra.contraster2.ui.theme.defaultContrastForegroundColor
 import com.brunoterra.hsvmaker.ui.HueSlider
 import com.brunoterra.hsvmaker.ui.SaturationSlider
 import com.brunoterra.hsvmaker.ui.ValueSlider
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun MainScreen() {
+fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
+
+    val state = contrastVM.contrastUiState.collectAsStateWithLifecycle()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(defaultContrastBackgroundColor)
+            .background(Color(state.value.backgroundColor))
             .scrollable(
                 rememberScrollState(),
                 orientation = Orientation.Vertical
@@ -67,7 +73,17 @@ fun MainScreen() {
             ) {
                 ColorHeaderSection()
                 Spacer(modifier = Modifier.height(24.dp))
-                SlidersSection()
+                SlidersSection(
+                    state.value,
+                    onHueChange = {
+                        contrastVM.onEvent(ContrastEvents.HueChange(it))
+                    },
+                    onSaturationChange = {
+                        contrastVM.onEvent(ContrastEvents.SaturationChange(it))
+                    },
+                    onValueChange = {
+                        contrastVM.onEvent(ContrastEvents.ValueChange(it))
+                    })
             }
 
         }
@@ -175,18 +191,32 @@ private fun ToggleGroup() {
 }
 
 @Composable
-fun SlidersSection() {
+fun SlidersSection(
+    state: ContrastUiState,
+    onHueChange: (Float) -> Unit,
+    onSaturationChange: (Float) -> Unit,
+    onValueChange: (Float) -> Unit
+) {
+
     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         LabeledComponent(icon = R.drawable.baseline_palette_24, label = R.string.hue) {
-            HueSlider(value = 0f, onValueChange = {})
+            HueSlider(value = state.hueSlider, onValueChange = {
+                onHueChange(it)
+            })
         }
 
         LabeledComponent(icon = R.drawable.baseline_light_mode_24, label = R.string.value) {
-            ValueSlider(hue = 160f, value = 0f, onValueChange = {})
+            ValueSlider(
+                hue = state.hueSlider,
+                value = state.valueSlider,
+                onValueChange = { onValueChange(it) })
         }
 
         LabeledComponent(icon = R.drawable.baseline_opacity_24, label = R.string.saturation) {
-            SaturationSlider(hue = 160f, value = 0f, onValueChange = {})
+            SaturationSlider(
+                hue = state.hueSlider,
+                value = state.saturationSlider,
+                onValueChange = { onSaturationChange(it) })
         }
     }
 }
@@ -212,7 +242,7 @@ fun LabeledComponent(@DrawableRes icon: Int, @StringRes label: Int, func: @Compo
 fun MainScreenLightPrev() {
     Contraster2Theme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            MainScreen()
+            ContrastScreen()
         }
     }
 }
@@ -222,7 +252,7 @@ fun MainScreenLightPrev() {
 fun MainScreenDarkPrev() {
     Contraster2Theme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            MainScreen()
+            ContrastScreen()
         }
     }
 }

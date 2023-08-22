@@ -100,7 +100,7 @@ fun ValueSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
 fun SaturationSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
 
     val sliderMainColor =
-        HSVUtils.getSaturationSequentialList(Color(HSVMaker.createFromHSV(HSVColor(hue, .5f, .5f))))
+        HSVUtils.getSaturationSequentialList(Color(HSVMaker.createFromHSV(HSVColor(hue, 1f, .5f))))
 
     SliderContainer(
         sliderBrush = Brush.linearGradient(
@@ -115,7 +115,7 @@ fun SaturationSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
                 inactiveTickColor = Color.Transparent,
                 thumbColor = Color.Black,
                 activeTrackColor = Color.Transparent,
-                inactiveTrackColor = Color.Transparent
+                inactiveTrackColor = Color.Transparent,
 
             ),
 

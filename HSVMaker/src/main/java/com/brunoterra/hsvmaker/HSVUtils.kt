@@ -2,7 +2,7 @@ package com.brunoterra.hsvmaker
 
 import androidx.compose.ui.graphics.Color
 
-object HSVUtils {
+internal object HSVUtils {
 
     val hsvSequentialColors = listOf(
         Color.Red, Color.Yellow, Color.Green, Color.Cyan, Color.Blue,
