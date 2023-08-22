@@ -57,39 +57,57 @@ class ContrastViewModel(
         target: Target? = null
     ) {
         _contrastUiState.update { currentValue ->
-            val mTarget = target ?: currentValue.target
 
-            val currentHslForTarget =
-                if (mTarget == Target.BACKGROUND) currentValue.backgroundWrapper else currentValue.foregroundWrapper
+            val mTarget = target?:currentValue.target
 
-            val newColor = hslChangeUseCase(
-                hue = hue ?: currentHslForTarget.hslColor.hue,
-                saturation = sat ?: currentHslForTarget.hslColor.saturation,
-                lightness = lightness ?: currentHslForTarget.hslColor.lightness
-            )
+            var backgroundWrapper = currentValue.backgroundWrapper
+            var foregroundWrapper = currentValue.foregroundWrapper
 
-            val hexColor = colorHexCalculatorUseCase(newColor)
+            if (mTarget == Target.BACKGROUND) {
+                backgroundWrapper = generateHSLWrapper(Target.BACKGROUND, hue, sat, lightness)
+            }
 
-            val updatedHSLWrapper =
-                (if (mTarget == Target.BACKGROUND) currentValue.backgroundWrapper else currentValue.foregroundWrapper).copy(
-                    hslColor = HSLColor(
-                        hue ?: currentHslForTarget.hslColor.hue,
-                        sat ?: currentHslForTarget.hslColor.saturation,
-                        lightness ?: currentHslForTarget.hslColor.lightness,
-                    ),
-                    color = newColor,
-                    colorHex = hexColor,
-                )
+            if (mTarget == Target.FOREGROUND) {
+                foregroundWrapper = generateHSLWrapper(Target.FOREGROUND, hue, sat, lightness)
+            }
+
+            val contrast =
+                calculateContrastUseCase(foregroundWrapper.color, backgroundWrapper.color)
 
             currentValue.copy(
-                backgroundWrapper = if (mTarget == Target.BACKGROUND) updatedHSLWrapper else currentValue.backgroundWrapper,
-                foregroundWrapper = if (mTarget == Target.FOREGROUND) updatedHSLWrapper else currentValue.foregroundWrapper,
-                contrast = calculateContrastUseCase(
-                    currentValue.foregroundWrapper.color,
-                    currentValue.backgroundWrapper.color
-                )
+                backgroundWrapper = backgroundWrapper,
+                foregroundWrapper = foregroundWrapper,
+                contrast = contrast
             )
         }
+    }
+
+    private fun generateHSLWrapper(
+        target: Target,
+        hue: Float? = null,
+        sat: Float? = null,
+        lightness: Float? = null,
+    ): HSLWrapper {
+        val currentWrapperForTarget =
+            if (target == Target.BACKGROUND) _contrastUiState.value.backgroundWrapper else _contrastUiState.value.foregroundWrapper
+
+        val newColor = hslChangeUseCase(
+            hue = hue ?: currentWrapperForTarget.hslColor.hue,
+            saturation = sat ?: currentWrapperForTarget.hslColor.saturation,
+            lightness = lightness ?: currentWrapperForTarget.hslColor.lightness
+        )
+
+        val hexColor = colorHexCalculatorUseCase(newColor)
+
+        return HSLWrapper(
+            hslColor = HSLColor(
+                hue ?: currentWrapperForTarget.hslColor.hue,
+                sat ?: currentWrapperForTarget.hslColor.saturation,
+                lightness ?: currentWrapperForTarget.hslColor.lightness,
+            ),
+            color = newColor,
+            colorHex = hexColor,
+        )
     }
 
     private fun switchColors() {
