@@ -5,6 +5,7 @@ import com.brunoterra.contraster2.domain.usecase.HSVChangeUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import java.lang.String
 
 class ContrastViewModel(private val hsvChangeUseCase: HSVChangeUseCase) : ViewModel() {
 
@@ -51,12 +52,15 @@ class ContrastViewModel(private val hsvChangeUseCase: HSVChangeUseCase) : ViewMo
                 value = value ?: currentHsvForTarget.valueSlider
             )
 
+            val hexColor = String.format("#%06X", 0xFFFFFF and newColor)
+
             val backgroundWrapper =
                 if (target == Target.BACKGROUND) currentValue.backgroundWrapper.copy(
                     hueSlider = hue ?: currentHsvForTarget.hueSlider,
                     saturationSlider = sat ?: currentHsvForTarget.saturationSlider,
                     valueSlider = value ?: currentHsvForTarget.valueSlider,
-                    color = newColor
+                    color = newColor,
+                    colorHex = hexColor,
                 ) else currentValue.backgroundWrapper
 
             val foregroundWrapper =
@@ -64,7 +68,8 @@ class ContrastViewModel(private val hsvChangeUseCase: HSVChangeUseCase) : ViewMo
                     hueSlider = hue ?: currentHsvForTarget.hueSlider,
                     saturationSlider = sat ?: currentHsvForTarget.saturationSlider,
                     valueSlider = value ?: currentHsvForTarget.valueSlider,
-                    color = newColor
+                    color = newColor,
+                    colorHex = hexColor,
                 ) else currentValue.foregroundWrapper
 
             currentValue.copy(

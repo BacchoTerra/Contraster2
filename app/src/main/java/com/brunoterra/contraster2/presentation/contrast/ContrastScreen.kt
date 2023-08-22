@@ -74,7 +74,9 @@ fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
-                ColorHeaderSection(state.value.target) {
+                val hexCode =
+                    if (state.value.target == Target.BACKGROUND) state.value.backgroundWrapper.colorHex else state.value.foregroundWrapper.colorHex
+                ColorHeaderSection(state.value.target, hexCode) {
                     contrastVM.onEvent(ContrastEvents.TargetChange(it))
                 }
                 Spacer(modifier = Modifier.height(24.dp))
@@ -149,7 +151,11 @@ private fun ContrastSection(
 }
 
 @Composable
-private fun ColorHeaderSection(currentTarget: Target, onTargetSelection: (Target) -> Unit) {
+private fun ColorHeaderSection(
+    currentTarget: Target,
+    hexCode: String,
+    onTargetSelection: (Target) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -168,7 +174,7 @@ private fun ColorHeaderSection(currentTarget: Target, onTargetSelection: (Target
                         shape = CircleShape
                     )
                     .padding(6.dp),
-                text = "hex color"
+                text = hexCode
             )
         }
     }
@@ -294,7 +300,7 @@ fun ContrastSectionPrev() {
 fun ColorHeaderSectionPrev() {
     Contraster2Theme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            ColorHeaderSection(Target.BACKGROUND) {}
+            ColorHeaderSection(Target.BACKGROUND,"0xFF000000") {}
         }
     }
 }
