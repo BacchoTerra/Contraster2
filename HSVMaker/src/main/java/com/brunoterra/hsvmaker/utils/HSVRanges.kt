@@ -1,4 +1,4 @@
-package com.brunoterra.hsvmaker.ui
+package com.brunoterra.hsvmaker.utils
 
 object HSVRanges {
     val HUE_RANGE = 0f..360f

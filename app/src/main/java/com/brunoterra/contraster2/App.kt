@@ -1,4 +1,4 @@
-package com
+package com.brunoterra.contraster2
 
 import android.app.Application
 import com.brunoterra.contraster2.domain.di.domainModule

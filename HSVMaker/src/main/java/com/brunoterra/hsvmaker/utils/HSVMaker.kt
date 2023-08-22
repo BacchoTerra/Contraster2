@@ -1,7 +1,8 @@
-package com.brunoterra.hsvmaker
+package com.brunoterra.hsvmaker.utils
 
 import android.graphics.Color
 import androidx.core.graphics.ColorUtils
+import com.brunoterra.hsvmaker.domain.model.HSVColor
 
 object HSVMaker {
 

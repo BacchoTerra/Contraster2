@@ -10,6 +10,7 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -38,7 +40,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.brunoterra.contraster2.R
+import com.brunoterra.contraster2.presentation.utils.components.LabeledComponent
 import com.brunoterra.contraster2.ui.theme.Contraster2Theme
 import com.brunoterra.contraster2.ui.theme.Purple80
 import com.brunoterra.contraster2.ui.theme.defaultContrastBackgroundColor
@@ -57,51 +61,45 @@ fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
         modifier = Modifier
             .fillMaxSize()
             .background(Color(state.value.backgroundWrapper.color))
-            .scrollable(
-                rememberScrollState(),
-                orientation = Orientation.Vertical
-            )
+            .verticalScroll(rememberScrollState())
+            .height(IntrinsicSize.Max)
     ) {
 
-        Column {
-            ContrastSection(state.value.foregroundWrapper.color){
-                contrastVM.onEvent(ContrastEvents.SwitchColors)
-            }
-
-            Column(
-                Modifier
-                    .background(
-                        shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
-                        color = MaterialTheme.colorScheme.background
-                    )
-                    .fillMaxSize()
-                    .padding(16.dp)
-            ) {
-                val hexCode =
-                    if (state.value.target == Target.BACKGROUND) state.value.backgroundWrapper.colorHex else state.value.foregroundWrapper.colorHex
-                ColorHeaderSection(state.value.target, hexCode) {
-                    contrastVM.onEvent(ContrastEvents.TargetChange(it))
-                }
-                Spacer(modifier = Modifier.height(24.dp))
-                val sliderValues =
-                    if (state.value.target == Target.BACKGROUND) state.value.backgroundWrapper else state.value.foregroundWrapper
-                SlidersSection(
-                    hue = sliderValues.hsvColor.hue,
-                    sat = sliderValues.hsvColor.saturation,
-                    value = sliderValues.hsvColor.value,
-                    onHueChange = {
-                        contrastVM.onEvent(ContrastEvents.HueChange(it))
-                    },
-                    onSaturationChange = {
-                        contrastVM.onEvent(ContrastEvents.SaturationChange(it))
-                    },
-                    onValueChange = {
-                        contrastVM.onEvent(ContrastEvents.ValueChange(it))
-                    })
-            }
-
+        ContrastSection(state.value.foregroundWrapper.color) {
+            contrastVM.onEvent(ContrastEvents.SwitchColors)
         }
 
+        Column(
+            Modifier
+                .fillMaxSize()
+                .background(
+                    shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
+                    color = MaterialTheme.colorScheme.background
+                )
+                .padding(16.dp)
+        ) {
+            val hexCode =
+                if (state.value.target == Target.BACKGROUND) state.value.backgroundWrapper.colorHex else state.value.foregroundWrapper.colorHex
+            ColorHeaderSection(state.value.target, hexCode) {
+                contrastVM.onEvent(ContrastEvents.TargetChange(it))
+            }
+            Spacer(modifier = Modifier.height(24.dp))
+            val sliderValues =
+                if (state.value.target == Target.BACKGROUND) state.value.backgroundWrapper else state.value.foregroundWrapper
+            SlidersSection(
+                hue = sliderValues.hsvColor.hue,
+                sat = sliderValues.hsvColor.saturation,
+                value = sliderValues.hsvColor.value,
+                onHueChange = {
+                    contrastVM.onEvent(ContrastEvents.HueChange(it))
+                },
+                onSaturationChange = {
+                    contrastVM.onEvent(ContrastEvents.SaturationChange(it))
+                },
+                onValueChange = {
+                    contrastVM.onEvent(ContrastEvents.ValueChange(it))
+                })
+        }
     }
 }
 
@@ -258,45 +256,9 @@ fun SlidersSection(
     }
 }
 
-@Composable
-fun LabeledComponent(@DrawableRes icon: Int, @StringRes label: Int, func: @Composable () -> Unit) {
-    Column {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(id = icon),
-                contentDescription = "",
-                tint = MaterialTheme.colorScheme.onBackground
-            )
-            Spacer(modifier = Modifier.width(6.dp))
-            Text(text = stringResource(id = label), color = MaterialTheme.colorScheme.onBackground)
-        }
-        func()
-    }
-}
-
 @Preview
 @Composable
-fun MainScreenLightPrev() {
-    Contraster2Theme {
-        Surface(color = MaterialTheme.colorScheme.background) {
-            ContrastScreen()
-        }
-    }
-}
-
-@Preview(uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun MainScreenDarkPrev() {
-    Contraster2Theme {
-        Surface(color = MaterialTheme.colorScheme.background) {
-            ContrastScreen()
-        }
-    }
-}
-
-@Preview
-@Composable
-fun ContrastSectionPrev() {
+private fun ContrastSectionPrev() {
     Contraster2Theme {
         Surface(color = MaterialTheme.colorScheme.background) {
             ContrastSection()
@@ -306,7 +268,7 @@ fun ContrastSectionPrev() {
 
 @Preview
 @Composable
-fun ColorHeaderSectionPrev() {
+private fun ColorHeaderSectionPrev() {
     Contraster2Theme {
         Surface(color = MaterialTheme.colorScheme.background) {
             ColorHeaderSection(Target.BACKGROUND, "0xFF000000") {}
@@ -316,7 +278,7 @@ fun ColorHeaderSectionPrev() {
 
 @Preview
 @Composable
-fun LabeledComponentPrev() {
+private fun LabeledComponentPrev() {
     Contraster2Theme {
         Surface(color = MaterialTheme.colorScheme.background) {
             LabeledComponent(

@@ -1,9 +1,9 @@
 package com.brunoterra.contraster2.domain.usecase
 
 import android.util.Log
-import com.brunoterra.hsvmaker.HSVColor
-import com.brunoterra.hsvmaker.HSVMaker
-import com.brunoterra.hsvmaker.ui.HSVRanges
+import com.brunoterra.hsvmaker.domain.model.HSVColor
+import com.brunoterra.hsvmaker.utils.HSVMaker
+import com.brunoterra.hsvmaker.utils.HSVRanges
 
 private const val TAG = "HSV_CALCULATION"
 

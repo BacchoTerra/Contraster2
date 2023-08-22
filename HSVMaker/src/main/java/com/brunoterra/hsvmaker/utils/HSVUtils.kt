@@ -1,4 +1,4 @@
-package com.brunoterra.hsvmaker
+package com.brunoterra.hsvmaker.utils
 
 import androidx.compose.ui.graphics.Color
 

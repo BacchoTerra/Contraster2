@@ -16,9 +16,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.brunoterra.hsvmaker.HSVColor
-import com.brunoterra.hsvmaker.HSVMaker
-import com.brunoterra.hsvmaker.HSVUtils
+import com.brunoterra.hsvmaker.domain.model.HSVColor
+import com.brunoterra.hsvmaker.utils.HSVMaker
+import com.brunoterra.hsvmaker.utils.HSVRanges
+import com.brunoterra.hsvmaker.utils.HSVUtils
 
 /**
  * Specific slider for <strong>hue</strong> value of an HSV color.
