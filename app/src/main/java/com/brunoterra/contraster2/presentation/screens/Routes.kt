@@ -16,7 +16,7 @@ sealed class Routes(val route: String) {
             args.forEach {
                 append("/$it")
             }
-        }.also { Log.i("Porsche", "withArgs: $it") }
+        }.also { Log.i("Screen route:", "withArgs: $it") }
     }
 }
 
