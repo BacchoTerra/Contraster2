@@ -74,9 +74,12 @@ fun ContrastSection(
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(
-                modifier = Modifier.clickable {
-                    onTestPalette()
-                },
+                modifier = Modifier
+                    .clickable {
+                        onTestPalette()
+                    }
+                    .border(1.dp, Color(foregroundColor), shape = CircleShape)
+                    .padding(6.dp),
                 text = stringResource(id = R.string.test_palette),
                 color = Color(foregroundColor)
             )
