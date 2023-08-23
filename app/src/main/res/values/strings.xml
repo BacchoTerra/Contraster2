@@ -34,4 +34,6 @@ totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam
 quasi aliquam eligendi, placeat qui corporis!
 </string>
     <string name="cd_person_icon">Person icon</string>
+    <string name="cd_navigate_back">navigate back</string>
+    <string name="contrast_score">Score: %1$.2f</string>
 </resources>

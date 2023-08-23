@@ -22,7 +22,7 @@ import com.brunoterra.contraster2.presentation.utils.Target
 @Composable
 fun ContrastScreen(
     contrastVM: ContrastViewModel = koinViewModel(),
-    onTestPalette: (backgroundColor: Int, foregroundColor: Int) -> Unit
+    onTestPalette: (backgroundColor: Int, foregroundColor: Int, score: Double) -> Unit
 ) {
 
     val state = contrastVM.contrastUiState.collectAsStateWithLifecycle()
@@ -44,7 +44,8 @@ fun ContrastScreen(
             onTestPalette = {
                 onTestPalette(
                     state.value.backgroundWrapper.color,
-                    state.value.foregroundWrapper.color
+                    state.value.foregroundWrapper.color,
+                    state.value.contrast.score
                 )
             }
         )

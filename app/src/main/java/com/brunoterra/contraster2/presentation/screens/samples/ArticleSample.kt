@@ -32,8 +32,15 @@ import androidx.compose.ui.unit.dp
 import com.brunoterra.contraster2.R
 
 @Composable
-fun ArticleScreen(backgroundColor: Int, foregroundColor: Int) {
-    SampleContainer(topBarTitle = "shit: $backgroundColor, $foregroundColor") {
+fun ArticleScreen(
+    backgroundColor: Int,
+    foregroundColor: Int,
+    score: Double,
+    onNavigateBack: () -> Unit
+) {
+    SampleContainer(
+        topBarTitle = stringResource(id = R.string.contrast_score, score),
+        onNavigateBack = { onNavigateBack() }) {
 
         val scrollState = rememberScrollState()
 

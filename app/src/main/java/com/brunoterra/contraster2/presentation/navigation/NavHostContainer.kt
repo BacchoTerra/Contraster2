@@ -19,8 +19,8 @@ fun NavHostContainer(navController: NavHostController) {
         startDestination = Routes.ContrastScreen.route
     ) {
         composable(Routes.ContrastScreen.route) {
-            ContrastScreen { bgc, fgc ->
-                navController.navigate(Routes.ArticleScreen.withArgs(bgc, fgc))
+            ContrastScreen { bgc, fgc, score ->
+                navController.navigate(Routes.ArticleScreen.withArgs(bgc, fgc, score))
             }
         }
 
@@ -33,12 +33,18 @@ fun NavHostContainer(navController: NavHostController) {
                 navArgument(Routes.ArticleScreen.ARG_FOREGROUND_COLOR) {
                     type = NavType.IntType
                 },
+                navArgument(Routes.ArticleScreen.ARG_SCORE) {
+                    type = NavType.FloatType
+                },
             )
         ) { entry ->
             ArticleScreen(
                 entry.getArgOrDefault(Routes.ArticleScreen.ARG_BACKGROUND_COLOR, -1),
-                entry.getArgOrDefault(Routes.ArticleScreen.ARG_FOREGROUND_COLOR, -1)
-            )
+                entry.getArgOrDefault(Routes.ArticleScreen.ARG_FOREGROUND_COLOR, -1),
+                entry.getArgOrDefault(Routes.ArticleScreen.ARG_SCORE, 0.0)
+            ) {
+                navController.navigateUp()
+            }
         }
     }
 }
