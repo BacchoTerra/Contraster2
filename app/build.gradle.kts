@@ -79,4 +79,7 @@ dependencies {
 
     //Koin
     implementation(Koin.koinCompose)
+
+    //Navigation
+    implementation(Navigation.navigation)
 }

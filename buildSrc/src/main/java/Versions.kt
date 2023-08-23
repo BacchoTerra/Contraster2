@@ -7,4 +7,5 @@ object Versions{
     const val KOTLIN_COMPILER_VERSION = "1.4.3"
     const val COROUTINE_VERSION = "1.6.4"
     const val LIFECYCLER_VERSION = "2.6.1"
+    const val NAVIGATION_VERSION = "2.5.3"
 }

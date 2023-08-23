@@ -20,7 +20,10 @@ import org.koin.androidx.compose.koinViewModel
 import com.brunoterra.contraster2.presentation.utils.Target
 
 @Composable
-fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
+fun ContrastScreen(
+    contrastVM: ContrastViewModel = koinViewModel(),
+    onTestPalette: (backgroundColor: Int, foregroundColor: Int) -> Unit
+) {
 
     val state = contrastVM.contrastUiState.collectAsStateWithLifecycle()
 
@@ -32,9 +35,19 @@ fun ContrastScreen(contrastVM: ContrastViewModel = koinViewModel()) {
             .height(IntrinsicSize.Max)
     ) {
 
-        ContrastSection(state.value.foregroundWrapper.color, state.value.contrast) {
-            contrastVM.onEvent(ContrastEvents.SwitchColors)
-        }
+        ContrastSection(
+            state.value.foregroundWrapper.color,
+            state.value.contrast,
+            onSwitch = {
+                contrastVM.onEvent(ContrastEvents.SwitchColors)
+            },
+            onTestPalette = {
+                onTestPalette(
+                    state.value.backgroundWrapper.color,
+                    state.value.foregroundWrapper.color
+                )
+            }
+        )
 
         Column(
             Modifier

@@ -40,6 +40,7 @@ fun ContrastSection(
     foregroundColor: Int = defaultContrastForegroundColor.toArgb(),
     contrast: Contrast = Contrast(),
     onSwitch: () -> Unit = {},
+    onTestPalette: () -> Unit = {},
 ) {
     Column(
         Modifier
@@ -72,7 +73,13 @@ fun ContrastSection(
         )
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(text = stringResource(id = R.string.test_palette), color = Color(foregroundColor))
+            Text(
+                modifier = Modifier.clickable {
+                    onTestPalette()
+                },
+                text = stringResource(id = R.string.test_palette),
+                color = Color(foregroundColor)
+            )
             Icon(
                 modifier = Modifier
                     .padding(4.dp)
