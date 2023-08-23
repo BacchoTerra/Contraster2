@@ -1,6 +1,5 @@
 package com.brunoterra.contraster2.domain.usecase.contrast
 
-import android.util.Log
 import com.brunoterra.hslmaker.domain.model.HSLColor
 import com.brunoterra.hslmaker.utils.HSLMaker
 import com.brunoterra.hslmaker.utils.HSLRanges

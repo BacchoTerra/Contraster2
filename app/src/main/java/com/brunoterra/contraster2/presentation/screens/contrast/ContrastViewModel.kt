@@ -5,11 +5,11 @@ import com.brunoterra.contraster2.domain.model.HSLWrapper
 import com.brunoterra.contraster2.domain.usecase.contrast.CalculateContrastUseCase
 import com.brunoterra.contraster2.domain.usecase.contrast.ColorHexCalculatorUseCase
 import com.brunoterra.contraster2.domain.usecase.contrast.HSLChangeUseCase
+import com.brunoterra.contraster2.presentation.utils.Target
 import com.brunoterra.hslmaker.domain.model.HSLColor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import com.brunoterra.contraster2.presentation.utils.Target
 
 class ContrastViewModel(
     private val hslChangeUseCase: HSLChangeUseCase,
