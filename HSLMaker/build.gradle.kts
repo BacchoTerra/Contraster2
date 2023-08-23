@@ -42,6 +42,8 @@ dependencies {
 
     implementation(AndroidX.coreKtx)
     testImplementation(JUnit.jUnit)
+    androidTestImplementation(AndroidX.androidTest)
+    androidTestImplementation(AndroidX.androidEspresso)
 
     // Compose
     implementation(platform(Compose.bom))

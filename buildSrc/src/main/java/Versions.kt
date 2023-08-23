@@ -1,5 +1,7 @@
 object Versions{
     const val ANDROID_X_CORE_VERSION = "1.9.0"
+    const val ANDROID_X_TEST_VERSION = "1.1.5"
+    const val ANDROID_X_ESPRESSO_VERSION = "3.5.1"
     const val COMPOSE_BOM_VERSION = "2023.06.01"
     const val ACTIVITY_COMPOSE_VERSION = "1.7.2"
     const val JUNIT_VERSION = "4.13.2"
