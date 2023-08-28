@@ -9,5 +9,5 @@ data class ContrastUiState(
     val backgroundWrapper: HSLWrapper = HSLWrapper(HSLColor(217f, .82f, .53f)),
     val foregroundWrapper: HSLWrapper = HSLWrapper(HSLColor(0f, 0f, 1f)),
     val target: Target = Target.BACKGROUND,
-    val contrast: Contrast = Contrast()
+    val contrast: Contrast = Contrast(),
 )

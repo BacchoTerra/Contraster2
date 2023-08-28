@@ -22,9 +22,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ContrastScreen(
     contrastVM: ContrastViewModel = koinViewModel(),
-    onTestPalette: (backgroundColor: Int, foregroundColor: Int, score: Double) -> Unit
+    onTestPalette: (backgroundColor: Int, foregroundColor: Int, score: Double) -> Unit,
 ) {
-
     val state = contrastVM.contrastUiState.collectAsStateWithLifecycle()
 
     Column(
@@ -32,9 +31,8 @@ fun ContrastScreen(
             .fillMaxSize()
             .background(Color(state.value.backgroundWrapper.color))
             .verticalScroll(rememberScrollState())
-            .height(IntrinsicSize.Max)
+            .height(IntrinsicSize.Max),
     ) {
-
         ContrastSection(
             state.value.foregroundWrapper.color,
             state.value.contrast,
@@ -45,9 +43,9 @@ fun ContrastScreen(
                 onTestPalette(
                     state.value.backgroundWrapper.color,
                     state.value.foregroundWrapper.color,
-                    state.value.contrast.score
+                    state.value.contrast.score,
                 )
-            }
+            },
         )
 
         Column(
@@ -55,9 +53,9 @@ fun ContrastScreen(
                 .fillMaxSize()
                 .background(
                     shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 )
-                .padding(16.dp)
+                .padding(16.dp),
         ) {
             val hexCode =
                 if (state.value.target == Target.BACKGROUND) state.value.backgroundWrapper.colorHex else state.value.foregroundWrapper.colorHex
@@ -79,7 +77,8 @@ fun ContrastScreen(
                 },
                 onLightnessChange = {
                     contrastVM.onEvent(ContrastEvents.LightnessChange(it))
-                })
+                },
+            )
         }
     }
 }

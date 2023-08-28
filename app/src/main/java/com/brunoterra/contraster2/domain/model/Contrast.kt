@@ -4,7 +4,7 @@ import com.brunoterra.contraster2.domain.utils.ContrastRatio
 
 data class Contrast(
     val score: Double = -1.0,
-    val ratio: ContrastRatio = ContrastRatio.FAIL
+    val ratio: ContrastRatio = ContrastRatio.FAIL,
 ) {
     companion object {
         val FAIL_RANGE = 0.0f..2.99f

@@ -13,5 +13,4 @@ class HSLChangeUseCase {
         }
         return HSLMaker.createFromHSL(HSLColor(hue, saturation, lightness))
     }
-
 }

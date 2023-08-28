@@ -46,22 +46,22 @@ fun ContrastSection(
         Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Text(
             text = stringResource(id = R.string.app_name),
             style = MaterialTheme.typography.bodySmall,
-            color = Color(foregroundColor)
+            color = Color(foregroundColor),
         )
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(
                 text = stringResource(id = R.string.motto),
                 style = MaterialTheme.typography.displayMedium,
-                color = Color(foregroundColor)
+                color = Color(foregroundColor),
             )
             Text(text = "${contrast.ratio.value}/${contrast.score}", color = Color(foregroundColor))
         }
@@ -69,7 +69,7 @@ fun ContrastSection(
         Text(
             text = stringResource(id = R.string.lorem_display),
             style = MaterialTheme.typography.bodyMedium,
-            color = Color(foregroundColor)
+            color = Color(foregroundColor),
         )
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -81,7 +81,7 @@ fun ContrastSection(
                     .border(1.dp, Color(foregroundColor), shape = CircleShape)
                     .padding(6.dp),
                 text = stringResource(id = R.string.test_palette),
-                color = Color(foregroundColor)
+                color = Color(foregroundColor),
             )
             Icon(
                 modifier = Modifier
@@ -91,12 +91,11 @@ fun ContrastSection(
                     },
                 painter = painterResource(id = R.drawable.baseline_sync_24),
                 contentDescription = stringResource(
-                    id = R.string.cd_switch
+                    id = R.string.cd_switch,
                 ),
-                tint = Color(foregroundColor)
+                tint = Color(foregroundColor),
             )
         }
-
     }
 }
 
@@ -104,16 +103,16 @@ fun ContrastSection(
 fun ColorHeaderSection(
     currentTarget: Target,
     hexCode: String,
-    onTargetSelection: (Target) -> Unit
+    onTargetSelection: (Target) -> Unit,
 ) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
     ) {
         Row(
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             ToggleGroup(currentTarget, onTargetSelection)
             Text(
@@ -121,10 +120,10 @@ fun ColorHeaderSection(
                     .border(
                         width = 1.dp,
                         color = MaterialTheme.colorScheme.onBackground,
-                        shape = CircleShape
+                        shape = CircleShape,
                     )
                     .padding(6.dp),
-                text = hexCode
+                text = hexCode,
             )
         }
     }
@@ -138,13 +137,14 @@ fun ToggleGroup(currentTarget: Target, onSelection: (Target) -> Unit) {
                 topStart = 8.dp,
                 bottomStart = 8.dp,
                 topEnd = 0.dp,
-                bottomEnd = 0.dp
+                bottomEnd = 0.dp,
             ),
             colors = ButtonDefaults.buttonColors(
                 containerColor = if (currentTarget == Target.BACKGROUND) Purple80 else Color.White,
-                contentColor = Color.Gray
+                contentColor = Color.Gray,
             ),
-            onClick = { onSelection(Target.BACKGROUND) }) {
+            onClick = { onSelection(Target.BACKGROUND) },
+        ) {
             Text(text = stringResource(id = R.string.background))
         }
 
@@ -153,13 +153,13 @@ fun ToggleGroup(currentTarget: Target, onSelection: (Target) -> Unit) {
                 topStart = 0.dp,
                 bottomStart = 0.dp,
                 topEnd = 8.dp,
-                bottomEnd = 8.dp
+                bottomEnd = 8.dp,
             ),
             colors = ButtonDefaults.buttonColors(
                 containerColor = if (currentTarget == Target.FOREGROUND) Purple80 else Color.White,
-                contentColor = Color.Gray
+                contentColor = Color.Gray,
             ),
-            onClick = { onSelection(Target.FOREGROUND) }
+            onClick = { onSelection(Target.FOREGROUND) },
         ) {
             Text(text = stringResource(id = R.string.foreground))
         }
@@ -173,9 +173,8 @@ fun SlidersSection(
     lightness: Float,
     onHueChange: (Float) -> Unit,
     onSaturationChange: (Float) -> Unit,
-    onLightnessChange: (Float) -> Unit
+    onLightnessChange: (Float) -> Unit,
 ) {
-
     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         LabeledComponent(icon = R.drawable.baseline_palette_24, label = R.string.hue) {
             HueSlider(value = hue, onValueChange = {
@@ -187,14 +186,16 @@ fun SlidersSection(
             LightnessSlider(
                 hue = hue,
                 lightness = lightness,
-                onValueChange = { onLightnessChange(it) })
+                onValueChange = { onLightnessChange(it) },
+            )
         }
 
         LabeledComponent(icon = R.drawable.baseline_opacity_24, label = R.string.saturation) {
             SaturationSlider(
                 hue = hue,
                 value = sat,
-                onValueChange = { onSaturationChange(it) })
+                onValueChange = { onSaturationChange(it) },
+            )
         }
     }
 }
@@ -226,7 +227,7 @@ private fun LabeledComponentPrev() {
         Surface(color = MaterialTheme.colorScheme.background) {
             LabeledComponent(
                 icon = R.drawable.baseline_sync_24,
-                label = R.string.test_palette
+                label = R.string.test_palette,
             ) {
                 HueSlider(value = 0f, onValueChange = {})
             }

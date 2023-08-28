@@ -1,4 +1,4 @@
-object Versions{
+object Versions {
     const val ANDROID_X_CORE_VERSION = "1.9.0"
     const val ANDROID_X_TEST_VERSION = "1.1.5"
     const val ANDROID_X_ESPRESSO_VERSION = "3.5.1"

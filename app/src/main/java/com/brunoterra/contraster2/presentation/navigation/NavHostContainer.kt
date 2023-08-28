@@ -15,7 +15,7 @@ import com.brunoterra.contraster2.presentation.screens.samples.ArticleScreen
 fun NavHostContainer(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Routes.ContrastScreen.route
+        startDestination = Routes.ContrastScreen.route,
     ) {
         composable(Routes.ContrastScreen.route) {
             ContrastScreen { bgc, fgc, score ->
@@ -35,12 +35,12 @@ fun NavHostContainer(navController: NavHostController) {
                 navArgument(Routes.ArticleScreen.ARG_SCORE) {
                     type = NavType.FloatType
                 },
-            )
+            ),
         ) { entry ->
             ArticleScreen(
                 entry.getArgOrDefault(Routes.ArticleScreen.ARG_BACKGROUND_COLOR, -1),
                 entry.getArgOrDefault(Routes.ArticleScreen.ARG_FOREGROUND_COLOR, -1),
-                entry.getArgOrDefault(Routes.ArticleScreen.ARG_SCORE, 0.0)
+                entry.getArgOrDefault(Routes.ArticleScreen.ARG_SCORE, 0.0),
             ) {
                 navController.navigateUp()
             }

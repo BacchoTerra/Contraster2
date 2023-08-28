@@ -23,7 +23,7 @@ fun LabeledComponent(@DrawableRes icon: Int, @StringRes label: Int, func: @Compo
             Icon(
                 painter = painterResource(id = icon),
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.onBackground
+                tint = MaterialTheme.colorScheme.onBackground,
             )
             Spacer(modifier = Modifier.width(6.dp))
             Text(text = stringResource(id = label), color = MaterialTheme.colorScheme.onBackground)

@@ -8,5 +8,4 @@ sealed class ContrastEvents {
     data class LightnessChange(val lightness: Float) : ContrastEvents()
     data class TargetChange(val target: Target) : ContrastEvents()
     object SwitchColors : ContrastEvents()
-
 }

@@ -25,19 +25,19 @@ import com.brunoterra.contraster2.R
 fun SampleContainer(
     topBarTitle: String,
     onNavigateBack: () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     Scaffold(
         topBar = {
             SampleToolbar(topBarTitle, onNavigateBack)
         },
-        contentWindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp)
+        contentWindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp),
     ) { paddingValues ->
         Box(
             Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .consumeWindowInsets(paddingValues)
+                .consumeWindowInsets(paddingValues),
         ) {
             content()
         }
@@ -55,8 +55,8 @@ fun SampleToolbar(title: String, onNavigateBack: () -> Unit) {
                     modifier = Modifier.padding(start = 16.dp),
                     painter = painterResource(id = R.drawable.baseline_arrow_back_ios_24),
                     contentDescription = stringResource(
-                        R.string.cd_navigate_back
-                    )
+                        R.string.cd_navigate_back,
+                    ),
                 )
             }
         },
@@ -66,5 +66,5 @@ fun SampleToolbar(title: String, onNavigateBack: () -> Unit) {
 @Preview
 @Composable
 private fun SampleToolbarPrev() {
-    SampleToolbar("Title"){}
+    SampleToolbar("Title") {}
 }

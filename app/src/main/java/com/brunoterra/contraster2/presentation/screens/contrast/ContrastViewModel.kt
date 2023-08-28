@@ -25,7 +25,6 @@ class ContrastViewModel(
         updateColorState(target = Target.FOREGROUND)
     }
 
-
     fun onEvent(event: ContrastEvents) {
         when (event) {
             is ContrastEvents.HueChange -> {
@@ -49,6 +48,8 @@ class ContrastViewModel(
             is ContrastEvents.SwitchColors -> {
                 switchColors()
             }
+
+            else -> {}
         }
     }
 
@@ -56,7 +57,7 @@ class ContrastViewModel(
         hue: Float? = null,
         sat: Float? = null,
         lightness: Float? = null,
-        target: Target? = null
+        target: Target? = null,
     ) {
         _contrastUiState.update { currentValue ->
 
@@ -79,7 +80,7 @@ class ContrastViewModel(
             currentValue.copy(
                 backgroundWrapper = backgroundWrapper,
                 foregroundWrapper = foregroundWrapper,
-                contrast = contrast
+                contrast = contrast,
             )
         }
     }
@@ -96,7 +97,7 @@ class ContrastViewModel(
         val newColor = hslChangeUseCase(
             hue = hue ?: currentWrapperForTarget.hslColor.hue,
             saturation = sat ?: currentWrapperForTarget.hslColor.saturation,
-            lightness = lightness ?: currentWrapperForTarget.hslColor.lightness
+            lightness = lightness ?: currentWrapperForTarget.hslColor.lightness,
         )
 
         val hexColor = colorHexCalculatorUseCase(newColor)
@@ -116,7 +117,7 @@ class ContrastViewModel(
         _contrastUiState.update { currentValue ->
             currentValue.copy(
                 backgroundWrapper = currentValue.foregroundWrapper,
-                foregroundWrapper = currentValue.backgroundWrapper
+                foregroundWrapper = currentValue.backgroundWrapper,
             )
         }
     }

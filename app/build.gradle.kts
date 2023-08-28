@@ -25,7 +25,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -69,19 +69,19 @@ dependencies {
     debugImplementation(Compose.uiTooling)
     debugImplementation(Compose.uiTestManifest)
 
-    //ViewModel + Lifecycle
+    // ViewModel + Lifecycle
     implementation(Lifecycle.viewModelKtx)
     implementation(Lifecycle.viewModelCompose)
     implementation(Lifecycle.runTimeKtx)
     implementation(Lifecycle.runTimeCompose)
     implementation(Lifecycle.commonJava8)
 
-    //Coroutines
+    // Coroutines
     implementation(Kotlin.coroutine)
 
-    //Koin
+    // Koin
     implementation(Koin.koinCompose)
 
-    //Navigation
+    // Navigation
     implementation(Navigation.navigation)
 }

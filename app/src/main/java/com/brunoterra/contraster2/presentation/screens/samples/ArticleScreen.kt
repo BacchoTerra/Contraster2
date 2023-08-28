@@ -30,12 +30,12 @@ fun ArticleScreen(
     backgroundColor: Int,
     foregroundColor: Int,
     score: Double,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
 ) {
     SampleContainer(
         topBarTitle = stringResource(id = R.string.contrast_score, score),
-        onNavigateBack = { onNavigateBack() }) {
-
+        onNavigateBack = { onNavigateBack() },
+    ) {
         val scrollState = rememberScrollState()
 
         Column(
@@ -44,18 +44,18 @@ fun ArticleScreen(
                 .verticalScroll(scrollState)
                 .background(color = Color(backgroundColor))
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(
                 text = stringResource(id = R.string.lorem_title),
                 style = MaterialTheme.typography.headlineSmall,
                 color = Color(foregroundColor),
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Icon(
                     modifier = Modifier
@@ -64,21 +64,20 @@ fun ArticleScreen(
                         .border(1.dp, color = Color(foregroundColor), shape = CircleShape)
                         .padding(8.dp),
                     painter = painterResource(id = R.drawable.baseline_person_24),
-                    contentDescription = stringResource(R.string.cd_person_icon)
+                    contentDescription = stringResource(R.string.cd_person_icon),
                 )
 
                 Text(
                     text = stringResource(id = R.string.lorem_author),
                     style = MaterialTheme.typography.labelMedium,
-                    color = Color(foregroundColor)
+                    color = Color(foregroundColor),
                 )
             }
 
             Text(
                 text = stringResource(id = R.string.loren_article),
-                color = Color(foregroundColor)
+                color = Color(foregroundColor),
             )
-
         }
     }
 }

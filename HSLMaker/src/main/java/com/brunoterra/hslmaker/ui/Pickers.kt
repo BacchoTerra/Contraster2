@@ -30,11 +30,10 @@ import com.brunoterra.hslmaker.utils.HSLUtils
  */
 @Composable
 fun HueSlider(value: Float, onValueChange: (Float) -> Unit) {
-
     SliderContainer(
         sliderBrush = Brush.linearGradient(
-            HSLUtils.getHueSequentialColorList()
-        )
+            HSLUtils.getHueSequentialColorList(),
+        ),
     ) {
         Slider(
             value = value,
@@ -44,11 +43,11 @@ fun HueSlider(value: Float, onValueChange: (Float) -> Unit) {
                 inactiveTickColor = Color.Transparent,
                 thumbColor = Color.Black,
                 activeTrackColor = Color.Transparent,
-                inactiveTrackColor = Color.Transparent
+                inactiveTrackColor = Color.Transparent,
 
             ),
 
-            onValueChange = { onValueChange(it) }
+            onValueChange = { onValueChange(it) },
         )
     }
 }
@@ -63,14 +62,13 @@ fun HueSlider(value: Float, onValueChange: (Float) -> Unit) {
  */
 @Composable
 fun LightnessSlider(hue: Float, lightness: Float, onValueChange: (Float) -> Unit) {
-
     val sliderMainColor =
         HSLUtils.getLightnessSequentialList(Color(HSLMaker.createFromHSL(HSLColor(hue, .5f, .5f))))
 
     SliderContainer(
         sliderBrush = Brush.linearGradient(
-            sliderMainColor
-        )
+            sliderMainColor,
+        ),
     ) {
         Slider(
             value = lightness,
@@ -80,11 +78,11 @@ fun LightnessSlider(hue: Float, lightness: Float, onValueChange: (Float) -> Unit
                 inactiveTickColor = Color.Transparent,
                 thumbColor = Color.Black,
                 activeTrackColor = Color.Transparent,
-                inactiveTrackColor = Color.Transparent
+                inactiveTrackColor = Color.Transparent,
 
             ),
 
-            onValueChange = { onValueChange(it) }
+            onValueChange = { onValueChange(it) },
         )
     }
 }
@@ -99,14 +97,13 @@ fun LightnessSlider(hue: Float, lightness: Float, onValueChange: (Float) -> Unit
  */
 @Composable
 fun SaturationSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
-
     val sliderMainColor =
         HSLUtils.getSaturationSequentialList(Color(HSLMaker.createFromHSL(HSLColor(hue, 1f, .5f))))
 
     SliderContainer(
         sliderBrush = Brush.linearGradient(
-            sliderMainColor
-        )
+            sliderMainColor,
+        ),
     ) {
         Slider(
             value = value,
@@ -118,9 +115,9 @@ fun SaturationSlider(hue: Float, value: Float, onValueChange: (Float) -> Unit) {
                 activeTrackColor = Color.Transparent,
                 inactiveTrackColor = Color.Transparent,
 
-                ),
+            ),
 
-            onValueChange = { onValueChange(it) }
+            onValueChange = { onValueChange(it) },
         )
     }
 }
@@ -140,8 +137,8 @@ private fun SliderContainer(sliderBrush: Brush, sliderFunc: @Composable () -> Un
                 .height(8.dp)
                 .background(
                     brush = sliderBrush,
-                    shape = MaterialTheme.shapes.medium
-                )
+                    shape = MaterialTheme.shapes.medium,
+                ),
         )
         sliderFunc()
     }
