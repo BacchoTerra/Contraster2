@@ -40,8 +40,8 @@ fun ArticleScreen(
 
         Column(
             modifier = Modifier
-                .verticalScroll(scrollState)
                 .fillMaxSize()
+                .verticalScroll(scrollState)
                 .background(color = Color(backgroundColor))
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
